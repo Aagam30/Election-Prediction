@@ -4,41 +4,51 @@
 ![Bootstrap](https://img.shields.io/badge/Frontend-Bootstrap5-purple)
 ![Chart.js](https://img.shields.io/badge/Charts-Chart.js-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
+![Deployment](https://img.shields.io/badge/Deploy-Replit%20%7C%20Render-success)
+
+Elite Election Predictor is a modern and interactive **machine learning web application** built with **Flask**, **Bootstrap 5**, and **Chart.js**. It predicts voting behavior using a dummy Decision Tree model — offering users a clean, animated, and responsive experience across devices.
 
 ---
 
-**Elite Election Predictor** is a Flask-based machine learning web application that predicts voting behavior based on user input. This enhanced UI version is styled with Bootstrap, animated with AOS, and visualized using Chart.js — offering a clean and modern user experience.
+## 🌐 Live Demo
+
+🔗 **Render Deployment:** [Visit on Render](https://election-prediction-app.onrender.com)  
+🔗 **Replit Deployment:** [Run on Replit](https://35303ec4-d441-4013-abcc-6263b3f83365-00-3hca24q1b3h8b.sisko.replit.dev/)
+
+---
 
 ## ✨ Features
 
-- 🎨 **Responsive design** using Bootstrap 5  
-- 📊 **Interactive charts** with Chart.js  
-- ⚙️ Dummy model included (DecisionTreeClassifier + Scaler)  
-- 💡 Predicts “Yes” or “No” based on:
+- 🎨 Responsive & mobile-first design with **Bootstrap 5**
+- 📊 Dynamic charts powered by **Chart.js**
+- ⚙️ Integrated with a **scikit-learn DecisionTreeClassifier** (dummy model)
+- 🧠 Predictions based on:
   - Age
   - Income
   - Education
   - Gender
   - Region
-- 🎞️ AOS scroll animations  
-- 🚀 Fully deployable to Render.com
+- 🎞️ Smooth scroll-triggered animations using **AOS.js**
+- 🌍 **Deployable on both [Render](https://render.com)** and **[Replit](https://replit.com)**
 
-## 📸 Screenshot
+---
 
-> *(Replace this with a real screenshot or link)*
 
-## 📦 Tech Stack
+## 🚀 Tech Stack
 
-| Tech            | Usage               |
-|-----------------|---------------------|
-| Python + Flask  | Backend & Routing   |
-| scikit-learn    | ML Model & Scaler   |
-| Bootstrap 5     | UI Components       |
-| Chart.js        | Data Visualization  |
-| AOS.js          | Scroll Animations   |
-| Render.com      | Hosting             |
+| Layer          | Technology           |
+|----------------|----------------------|
+| Backend        | Python + Flask       |
+| ML Model       | scikit-learn (Dummy) |
+| Frontend       | Bootstrap 5, AOS.js  |
+| Charts         | Chart.js             |
+| Hosting        | Render, Replit       |
 
-## 🔧 Installation & Run Locally
+---
+
+## 🛠️ Local Installation
+
+Clone the repository and set up the environment:
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/election-ui-enhanced.git
