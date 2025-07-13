@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📥 Data Export - Election Predictor</title>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            position: relative;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); }
+            50% { background: linear-gradient(135deg, #764ba2 0%, #f093fb 50%, #667eea 100%); }
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .navigation {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            to { text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.5); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+
+        .export-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .export-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .export-card {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .export-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .export-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .export-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .export-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .export-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 30px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .export-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .export-btn:hover::before {
+            left: 100%;
+        }
+
+        .csv-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .csv-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .json-btn {
+            background: linear-gradient(135deg, #6f42c1, #e83e8c);
+            color: white;
+            box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3);
+        }
+
+        .json-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(111, 66, 193, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .pdf-btn {
+            background: linear-gradient(135deg, #fd7e14, #dc3545);
+            color: white;
+            box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
+        }
+
+        .pdf-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(253, 126, 20, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .stats-overview {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(248, 249, 250, 0.8);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .info-card {
+            background: rgba(248, 249, 250, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .info-text {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .export-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <div class="navigation">
+            <div class="nav-container">
+                <div class="nav-links">
+                    <a href="/" class="nav-btn">🏠 Home</a>
+                    <a href="/history" class="nav-btn">📊 Analytics</a>
+                    <a href="/compare" class="nav-btn">⚖️ Compare</a>
+                    <a href="/export" class="nav-btn active">📥 Export Data</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>📥 Data Export Center</h1>
+            <p class="subtitle">
+                Download your prediction history and analytics in various formats for analysis, reporting, or record keeping
+            </p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-overview">
+            <div class="section-title">📊 Export Statistics</div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_predictions }}</div>
+                    <div class="stat-label">Total Predictions</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ total_comparisons }}</div>
+                    <div class="stat-label">Comparisons Made</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">{{ avg_confidence }}%</div>
+                    <div class="stat-label">Avg Confidence</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Export Formats</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Export Options -->
+        <div class="export-section">
+            <div class="section-title">📁 Choose Your Export Format</div>
+            <div class="export-grid">
+                <div class="export-card">
+                    <span class="export-icon">📊</span>
+                    <div class="export-title">CSV Spreadsheet</div>
+                    <div class="export-description">
+                        Perfect for Excel, Google Sheets, or data analysis tools. Contains all prediction data in tabular format with headers.
+                    </div>
+                    <a href="/export/csv" class="export-btn csv-btn">
+                        📊 Download CSV
+                    </a>
+                </div>
+
+                <div class="export-card">
+                    <span class="export-icon">📋</span>
+                    <div class="export-title">JSON Data</div>
+                    <div class="export-description">
+                        Structured data format ideal for developers and applications. Includes complete analytics and metadata.
+                    </div>
+                    <a href="/export/json" class="export-btn json-btn">
+                        📋 Download JSON
+                    </a>
+                </div>
+
+                <div class="export-card">
+                    <span class="export-icon">📄</span>
+                    <div class="export-title">PDF Report</div>
+                    <div class="export-description">
+                        Professional formatted report with summaries, tables, and analytics. Perfect for presentations and documentation.
+                    </div>
+                    <a href="/export/pdf" class="export-btn pdf-btn">
+                        📄 Download PDF
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="info-section">
+            <div class="section-title">ℹ️ Export Information</div>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-title">🔒 Privacy & Security</div>
+                    <div class="info-text">
+                        All exports are generated on-demand and are not stored on our servers. Your data remains private and secure.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">📅 Data Freshness</div>
+                    <div class="info-text">
+                        Exports include all predictions and analytics up to the moment of download, ensuring you get the most current data.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">🔄 File Formats</div>
+                    <div class="info-text">
+                        Choose from CSV for spreadsheets, JSON for development, or PDF for professional reports and presentations.
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="info-title">📈 Analytics Included</div>
+                    <div class="info-text">
+                        Each export contains comprehensive analytics including accuracy metrics, trends, and demographic insights.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize particles background
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.3, random: false },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.2, width: 1 },
+                move: { enable: true, speed: 3, direction: 'none', random: false, straight: false, out_mode: 'out', bounce: false }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'repulse' } },
+                modes: { repulse: { distance: 100 } }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
+```
+
+```text
+The "States" tab has been removed from the navigation bar.
+```
